@@ -37,11 +37,11 @@ export class InMemoryProvider implements ServiceManager {
     );
   }
 
-  public addService(service: Service): Promise<boolean> {
+  public addService(service: Service): Promise<void> {
     debug("enter addService:" + service.name);
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       InMemoryProvider.TestData.push(service);
-      resolve(true);
+      resolve(null);
     });
   }
 

@@ -105,10 +105,10 @@ export class ServiceFileProvider {
             if (c.matches === undefined) {
                 return false;
             }
-            
-            if(c.matches.every(m => request.includes(m))){
+
+            if (c.matches.every(m => request.includes(m))) {
                 // found and look for method also.
-                if( c.method == null || c.method.length == 0){  
+                if (c.method == null || c.method.length == 0) {
                     return true;       // method agnostic.
                 }
                 return c.method.toLowerCase() == req.method.toLowerCase();
@@ -132,13 +132,9 @@ export class ServiceFileProvider {
                 return;
             }
 
-            var encoding = 'utf-8'
             var binary = this.isFileBinary(responseFileName)
-            if( binary ){
-                encoding = 'binary'
-            }
 
-            return fs.readFile(responseFileName, encoding, (err, data) => {
+            return fs.readFile(responseFileName, binary ? 'binary' : 'utf-8', (err, data) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -208,8 +204,7 @@ export class ServiceFileProvider {
     }
 
     getResponseFileName(requestName: string): string {
-        if( path.extname(requestName).length > 0)
-        {
+        if (path.extname(requestName).length > 0) {
             return this.getServiceResponseDirectory() + path.sep + requestName;
         }
 
@@ -238,11 +233,10 @@ export class ServiceFileProvider {
         return script.process(name, this.getServiceResponseDirectory(), request, response, req)
     }
 
-    isFileBinary(fileName: string) : boolean {
+    isFileBinary(fileName: string): boolean {
         debug(`fileName: ${fileName}`)
         var ext = path.extname(fileName).toLowerCase()
-        if (ext == '.jpeg' || ext == '.png')
-        {
+        if (ext == '.jpeg' || ext == '.png') {
             return true
         }
 

@@ -7,7 +7,7 @@ import { Request } from 'express';
 export interface ServiceManager {
     getServices(): Promise<Service[]>;
     getService(name: string): Promise<Service>;
-    addService(service: Service): Promise<boolean>;
+    addService(service: Service): Promise<void>;
     getMapDetail(name: string, mapName: string): Promise<MapDetail>;
     addNewResponse(name: string, mapDetail: MapDetail): Promise<boolean>;
     modifyNewResponse(name: string, mapDetail: MapDetail): Promise<boolean>;

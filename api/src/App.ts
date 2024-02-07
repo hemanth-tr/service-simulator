@@ -43,35 +43,36 @@ class App {
 
   private mongoSetup(): void {
     if (config.app.provider === 'mongo') {
-      mongoose.Promise = global.Promise;
-      mongoose.connect(config.app.mongoDbConnection, { useNewUrlParser: true });
+      mongoose.connect(config.app.mongoDbConnection, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(res => { console.log('mongodb connected') })
+        .catch(err => { console.log('mongo error in connection:', err) });
     }
   }
 
   // Configure Express middleware.
   private middleware(): void {
-    
-    var urlrewriteFile = 'url-rewrite.json'    
-    if(config.app.provider === 'file'){
+
+    var urlrewriteFile = 'url-rewrite.json'
+    if (config.app.provider === 'file') {
       var urlRewriteInFileProviderLocation = config.app.fileProviderLocation + path.sep + 'url-rewrite.json'
       console.log(`Looking for ${urlRewriteInFileProviderLocation} `)
-      if(fs.existsSync(urlRewriteInFileProviderLocation)){
+      if (fs.existsSync(urlRewriteInFileProviderLocation)) {
         urlrewriteFile = urlRewriteInFileProviderLocation
-      }else{
+      } else {
         console.log(`does not exist ${urlRewriteInFileProviderLocation} `)
       }
     }
 
-    if( fs.existsSync(urlrewriteFile)){
+    if (fs.existsSync(urlrewriteFile)) {
       console.log(`loading ${urlrewriteFile}`)
       JSON.parse(fs.readFileSync(urlrewriteFile, 'utf-8')).forEach(map => {
         console.log(`map: ${map.match} ${map.route}`)
-        this.express.use(rewrite(map.match, map.route));    
+        this.express.use(rewrite(map.match, map.route));
       });
-    }else{
+    } else {
       console.log(`url rewrite not found: ${urlrewriteFile}`)
     }
-    
+
     // timing
     this.express.use(responseTime(function (req, res, time) {
       if (time > config.app.responseLogLimit) {

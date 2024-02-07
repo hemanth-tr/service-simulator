@@ -7,29 +7,19 @@ var debug = require("debug")("processLogFileManager");
 var lastCount = 1;
 
 export class ProcessLogFileManager {
-  constructor(public name: string, public fileProviderLocation: string) {}
+  constructor(public name: string, public fileProviderLocation: string) { }
 
   public async getLogs(): Promise<ProcessedRequest[]> {
     return new Promise<ProcessedRequest[]>((resolve, reject) => {
       var searchPath = this.getLogDirectory() + "/*.log";
       debug("search path:" + searchPath);
       var self = this;
-      glob(searchPath, {}, async function(err, files) {
-        if (err) {
-          debug("error enumerating:" + err);
-          reject(err);
-        } else {
-          try {
-            var requests = [];
-            files.forEach(file => {
-              requests.push(self.parseLogFileSync(file));
-            });
-            resolve(requests);
-          } catch (error) {
-            reject(error);
-          }
-        }
+      const files = glob.globSync(searchPath, {});
+      var requests = [];
+      files.forEach(file => {
+        requests.push(self.parseLogFileSync(file));
       });
+      resolve(requests);
     });
   }
 
@@ -52,9 +42,8 @@ export class ProcessLogFileManager {
     return new Promise<void>((resolve, reject) => {
       try {
         var searchPath = this.getLogDirectory() + "/*.log";
-        glob(searchPath, {}, async function(err, files) {
-          files.forEach(fs.unlinkSync);
-        });
+        const files = glob.globSync(searchPath, {});
+        files.forEach(fs.unlinkSync);
         resolve();
       } catch (error) {
         reject(error);
@@ -81,8 +70,8 @@ export class ProcessLogFileManager {
     if (!fs.existsSync(logDirectory)) {
       debug(
         "log directory " +
-          logDirectory +
-          " does not exists and hence not writing"
+        logDirectory +
+        " does not exists and hence not writing"
       );
       return;
     }

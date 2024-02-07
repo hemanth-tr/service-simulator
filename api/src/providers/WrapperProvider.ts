@@ -42,7 +42,7 @@ export class WrapperProvider implements ServiceManager {
         return service
     }
 
-    public async addService(service: Service): Promise<boolean> {
+    public async addService(service: Service): Promise<void> {
         debug('enter addService')
         service.name = service.name.toLocaleLowerCase().trim()
         return await this.innerProvider.addService(service)
@@ -90,7 +90,8 @@ export class WrapperProvider implements ServiceManager {
                         .transform(name, processInfo.request, processInfo.response)
                 }
                 await this.innerProvider.logRequest(name, new Date(), 200, processInfo);
-            } else {clearScreenDown
+            } else {
+                clearScreenDown
                 await this.logRequest(name, new Date(), 404, new ProcessInfo(request));
             }
 

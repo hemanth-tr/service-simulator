@@ -30,9 +30,13 @@ export class MongoDbProvider implements ServiceManager {
         return await (ServiceDbSchema.collection.findOne({ name: name }))
     }
 
-    public async addService(service: Service): Promise<boolean> {
+    public async addService(service: Service): Promise<void> {
         debug('addService:' + service.name)
-        return await ServiceDbSchema.collection.insertOne(service)
+        try {
+            await ServiceDbSchema.collection.insertOne(service)
+        } catch (e) {
+            debug(e)
+        }
     }
 
     public async getMapDetail(name: string, mapName: string): Promise<MapDetail> {
@@ -75,11 +79,11 @@ export class MongoDbProvider implements ServiceManager {
         var foundConfig = service.config.find(c => c.name == mapDetail.name)
         if (foundConfig === undefined) {
             service.config.push(new ServiceConfigMap(
-                mapDetail.name, 
-                foundConfig.sleep, 
+                mapDetail.name,
+                foundConfig.sleep,
                 mapDetail.matches,
                 mapDetail.method,
-                 mapDetail.script))
+                mapDetail.script))
         } else {
             foundConfig.matches = mapDetail.matches
             isUpdate = true
@@ -87,7 +91,7 @@ export class MongoDbProvider implements ServiceManager {
 
         return new Promise<boolean>((resolve, reject) => {
             debug('updating...')
-            ServiceDbSchema.findOneAndUpdate({ name: name }, service, async (err) => {
+            ServiceDbSchema.findOneAndUpdate({ name: name }, service, null, async (err) => {
                 if (err) {
                     debug('error:' + err)
                     reject(err)
@@ -156,7 +160,7 @@ export class MongoDbProvider implements ServiceManager {
                     var processInfo = new ProcessInfo(request);
                     processInfo.type = service.type
                     processInfo.matches = foundConfig.matches;
-                    processInfo.response = response[0].response;
+                    processInfo.response = response.toString();
                     resolve(processInfo);
                 }
             })
@@ -269,7 +273,7 @@ export class MongoDbProvider implements ServiceManager {
         debug('addRequest updated.')
         debug('adding request:' + requestNameKey)
         return new Promise<boolean>((resolve, reject) => {
-            RequestDbSchema.update({ name: requestNameKey }, { name: requestNameKey, request: request }, (err, result) => {
+            RequestDbSchema.update({ name: requestNameKey }, { name: requestNameKey, request: request }, null, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {

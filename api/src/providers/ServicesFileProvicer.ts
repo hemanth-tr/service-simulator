@@ -22,18 +22,12 @@ export class ServicesFileProvider implements ServiceManager {
         debug('reading :' + this.getFilesProviderLocation() + '/*')
 
         return new Promise<Service[]>((resolve, reject) => {
-            glob(this.getFilesProviderLocation() + '/*', (err, dirs) => {
-                if (err) {
-                    reject(err);
-                } else {
-
-                    resolve(dirs.map(d => {
-                        var name = d.split('/').slice(-1)[0]
-                        var serviceInfo = new ServiceFileProvider(name, this.getFilesProviderLocation())
-                        return new Service(name, serviceInfo.type, serviceInfo.getConfigMap())
-                    }));
-                }
-            });
+            const dirs = glob.globSync(this.getFilesProviderLocation() + '/*');
+            resolve(dirs.map(d => {
+                var name = d.split('/').slice(-1)[0]
+                var serviceInfo = new ServiceFileProvider(name, this.getFilesProviderLocation())
+                return new Service(name, serviceInfo.type, serviceInfo.getConfigMap())
+            }));
         });
     }
 
@@ -43,8 +37,8 @@ export class ServicesFileProvider implements ServiceManager {
         return services.find(s => s.name.toLocaleLowerCase() == name.toLocaleLowerCase());
     }
 
-    public async addService(service: Service): Promise<boolean> {
-        return await this.createNewService(service)
+    public async addService(service: Service): Promise<void> {
+        await this.createNewService(service)
     }
 
     public async getMapDetail(name: string, mapName: string): Promise<MapDetail> {
@@ -81,11 +75,11 @@ export class ServicesFileProvider implements ServiceManager {
     public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
         await new ProcessLogFileManager(name, this.getFilesProviderLocation()).writeLog(
             new ProcessedRequest(
-                date, 
-                status, 
+                date,
+                status,
                 processInfo.name,
-                processInfo.request, 
-                processInfo.response, 
+                processInfo.request,
+                processInfo.response,
                 processInfo.matches));
         return true;
     }
