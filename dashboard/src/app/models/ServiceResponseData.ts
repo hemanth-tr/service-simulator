@@ -1,9 +1,9 @@
-export class ServiceResponseData{
+export class ServiceResponseData {
     constructor(
-        public code: number,
-        public data: string,
+        public status: number,
+        public response: string,
         public matches: string[]
-    ){
+    ) {
 
     }
 }

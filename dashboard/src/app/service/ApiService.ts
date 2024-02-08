@@ -23,30 +23,30 @@ export class ApiService {
     getProvider(): Observable<Provider> {
         return this._http.get<Provider>(this.Configuration.getProviderInfoUrl()).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
     getServices(): Observable<Service[]> {
         return this._http.get<Service[]>(this.Configuration.adminServicesApiUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
     getServiceDetails(name: string): Observable<Service> {
         console.log('getServiceDetails url:' + this.Configuration.getServiceDetailsUrl(name));
         return this._http.get<Service>(this.Configuration.getServiceDetailsUrl(name)).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
     submitRequest(service: string, request: string): Observable<ServiceResponseData> {
         const requestProcessingUrl = this.Configuration.getServiceSimulatorUrl(service);
         return this._http.post<ServiceResponseData>(requestProcessingUrl, request)
-            .pipe(tap(data => console.log('received:' + data.code)),
+            .pipe(tap(data => console.log('received:' + data.status)),
                 catchError(this.handleError));
     }
 
-    addNewService(service: Service): Observable<any>{
+    addNewService(service: Service): Observable<any> {
         const addUrl = this.Configuration.getAddNewServiceUrl();
         console.log('adding service:' + JSON.stringify(service));
         return this._http.post<string>(addUrl, service)
@@ -67,35 +67,35 @@ export class ApiService {
         const mapDetailUrl = this.Configuration.getMapDetailUrl(service, mapName);
         return this._http.get<MapDetail>(mapDetailUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
     getLastRequests(service): Observable<ProcessedRequest[]> {
         const servedRequestUrl = this.Configuration.getProcessedRequests(service);
         return this._http.get<ProcessedRequest[]>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
-    clearLastRequests(name:string): Observable<any>{
+    clearLastRequests(name: string): Observable<any> {
         const servedRequestUrl = this.Configuration.getClearLastRequestUrl(name);
         return this._http.delete<any>(servedRequestUrl).pipe(
             tap(data => console.log('clearLastRequests:')),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
-    
+
     getProcessRequest(service, id): Observable<ProcessedRequest> {
         const servedRequestUrl = this.Configuration.getProcessedRequest(service, id);
         return this._http.get<ProcessedRequest>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
-    getLogs() : Observable<Log[]>{
+    getLogs(): Observable<Log[]> {
         const logRequestUrl = this.Configuration.getLogRequestUrl();
         return this._http.get<Log[]>(logRequestUrl).pipe(
             tap(data => console.log('getLog:')),
-            catchError(this.handleError), );
+            catchError(this.handleError),);
     }
 
     private handleError(err) {
@@ -114,6 +114,6 @@ export class ApiService {
                     additional info: ${additionalMessage}`;
         }
         console.error(errorMessage);
-        return throwError({ message: errorMessage, error: err});
+        return throwError({ message: errorMessage, error: err });
     }
 }
