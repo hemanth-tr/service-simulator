@@ -1,17 +1,17 @@
-import { ServiceManager } from './ServiceManager';
-import { Service } from '../model/Service';
-import { ServiceSchema } from '../model/ServiceSchema';
-import { ResponseSchema } from '../model/ResponseSchema';
-import { RequestSchema } from '../model/RequestSchema';
-import { LogRequestSchema } from '../model/LogRequestSchema';
-import { ProcessInfo } from '../model/ProcessInfo';
-import * as mongoose from "mongoose";
-import { ProcessedRequest } from '../model/ProcessedRequest';
-import { MapDetail } from '../model/MapDetail';
-import { ServiceConfigMap } from '../model/ServiceConfigMap';
+import { ServiceManager } from './ServiceManager.js';
+import { Service } from '../model/Service.js';
+import { ServiceSchema } from '../model/ServiceSchema.js';
+import { ResponseSchema } from '../model/ResponseSchema.js';
+import { RequestSchema } from '../model/RequestSchema.js';
+import { LogRequestSchema } from '../model/LogRequestSchema.js';
+import { ProcessInfo } from '../model/ProcessInfo.js';
+import mongoose from "mongoose";
+import { ProcessedRequest } from '../model/ProcessedRequest.js';
+import { MapDetail } from '../model/MapDetail.js';
+import { ServiceConfigMap } from '../model/ServiceConfigMap.js';
 import { Request } from 'express';
-import { resolve } from 'url';
-const debug = require('debug')('mongodbprovider')
+import appDebug from 'debug'
+const debug = appDebug('mongodbprovider')
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema);

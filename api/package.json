@@ -3,8 +3,9 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"build": "gulp scripts",
+		"build": "npx tsc&&gulp",
 		"test": "mocha --reporter spec --compilers ts:ts-node/register \"test/**/*.ts\""
 	},
 	"keywords": [],
@@ -24,8 +25,6 @@
 		"gulp-tslint": "^8.1.4",
 		"gulp-typescript": "^5.0.1",
 		"mocha": "^10.2.0",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.3.3",
 		"natives": "^1.1.6"
 	},
 	"dependencies": {
@@ -42,7 +41,6 @@
 		"node-windows": "^0.1.14",
 		"npm": "^10.4.0",
 		"response-time": "2.3.2",
-		"tsc": "^2.0.4",
 		"tslint": "^5.20.1"
 	}
 }

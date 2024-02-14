@@ -1,13 +1,12 @@
-import { ServiceManager } from "./ServiceManager";
-import { Service } from "../model/Service";
-import { ProcessInfo } from "../model/ProcessInfo";
-import { ProcessedRequest } from "../model/ProcessedRequest";
-import { MapDetail } from "../model/MapDetail";
-import { InMemoryProcessedRequestContainer } from "./InMemoryProcessedRequestContainer";
+import { ServiceManager } from "./ServiceManager.js";
+import { Service } from "../model/Service.js";
+import { ProcessInfo } from "../model/ProcessInfo.js";
+import { ProcessedRequest } from "../model/ProcessedRequest.js";
+import { MapDetail } from "../model/MapDetail.js";
+import { InMemoryProcessedRequestContainer } from "./InMemoryProcessedRequestContainer.js";
 import { Request } from 'express';
-import * as path from "path";
-import { resolve } from "url";
-const debug = require("debug")("inmemoryprovider");
+import appDebug from 'debug'
+const debug = appDebug("inmemoryprovider");
 
 export class InMemoryProvider implements ServiceManager {
   static TestData: any;

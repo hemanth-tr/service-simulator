@@ -1,9 +1,8 @@
-import { ITemplateDataProvider } from './../providers/ITemplateDataProvider';
-import { InMemoryTemplateDataProvider } from './../providers/InMemoryTemplateDataProvider';
-import * as dateformat from 'dateformat'
-import { fstat } from 'fs';
-import { DataExtractor } from './DataExtractor';
-const debug = require('debug')('handlebarhelpers')
+import { ITemplateDataProvider } from './../providers/ITemplateDataProvider.js';
+import dateformat from 'dateformat'
+import { DataExtractor } from './DataExtractor.js';
+import appDebug from 'debug'
+const debug = appDebug('handlebarhelpers')
 
 export class HelperProvider {
 

@@ -1,8 +1,9 @@
-import { Log } from "../model/Log";
-import * as fs from "fs";
-import * as path from "path";
-var dateFormat = require('dateformat');
-let debug = require('debug')('logmanager')
+import { Log } from "../model/Log.js";
+import fs from "fs";
+import path from "path";
+import dateFormat from 'dateformat'
+import appDebug from 'debug'
+let debug = appDebug('logmanager')
 // let logResponseTimeLimit = require('config').getConfig().responseLogLimit
 
 export class LogManager {
@@ -36,14 +37,14 @@ export class LogManager {
 
     public static async logTimingMessage(message): Promise<void> {
         var traceFile = this.getTraceLog()
-        await fs.appendFile(traceFile, message, (error) =>{
+        await fs.appendFile(traceFile, message, (error) => {
             debug('error' + error)
         })
     }
 
     private static getTraceLog() {
         var now = new Date();
-        var date = dateFormat(now,"mm_dd");
+        var date = dateFormat(now, "mm_dd");
         return process.cwd() + path.sep + `${date}_trace.txt`
-      }
+    }
 }

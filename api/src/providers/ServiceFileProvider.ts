@@ -1,14 +1,12 @@
-import { ServiceConfigMap } from "../model/ServiceConfigMap";
+import { ServiceConfigMap } from "../model/ServiceConfigMap.js";
 import { Request } from 'express';
-import * as path from 'path';
-import * as fs from 'fs';
-import { Service } from "../model/Service";
-import { ProcessInfo } from "../model/ProcessInfo";
-import { ProcessedRequest } from "../model/ProcessedRequest";
-import { MapDetail } from "../model/MapDetail";
-import { METHODS } from "http";
-import e = require("express");
-var debug = require('debug')('servicefileprovider')
+import path from 'path';
+import fs from 'fs';
+import { ProcessInfo } from "../model/ProcessInfo.js";
+import { ProcessedRequest } from "../model/ProcessedRequest.js";
+import { MapDetail } from "../model/MapDetail.js";
+import appDebug from 'debug'
+var debug = appDebug('servicefileprovider')
 
 export class ServiceFileProvider {
     configMaps: ServiceConfigMap[];

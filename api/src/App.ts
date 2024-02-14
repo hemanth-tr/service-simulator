@@ -1,21 +1,19 @@
-import * as express from 'express';
-import * as logger from 'morgan';
-import * as bodyParser from 'body-parser';
-import AdminRouter from './routes/AdminRouter';
-import ServiceRouter from './routes/ServiceRouter';
-import LogRouter from './routes/LogRouter';
-import * as mongoose from "mongoose";
-import { LogManager } from './providers/LogManager';
-import { LoggerStream } from './LoggerStream';
-import { createWriteStream } from 'fs';
-import ProviderRouter from './routes/ProviderRouter';
-const config = require('./config');
-let debug = require('debug')('app')
-var cors = require('cors')
-var responseTime = require('response-time')
-var rewrite = require('express-urlrewrite')
-var fs = require('fs')
-import * as path from 'path'
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import AdminRouter from './routes/AdminRouter.js';
+import ServiceRouter from './routes/ServiceRouter.js';
+import LogRouter from './routes/LogRouter.js';
+import mongoose from "mongoose";
+import { LogManager } from './providers/LogManager.js';
+import { LoggerStream } from './LoggerStream.js';
+import ProviderRouter from './routes/ProviderRouter.js';
+import config from './config.js'
+import cors from 'cors'
+import responseTime from 'response-time'
+import rewrite from 'express-urlrewrite'
+import fs from 'fs'
+import path from 'path'
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -42,8 +40,8 @@ class App {
   }
 
   private mongoSetup(): void {
-    if (config.app.provider === 'mongo') {
-      mongoose.connect(config.app.mongoDbConnection, { useNewUrlParser: true, useUnifiedTopology: true })
+    if (config().app.provider === 'mongo') {
+      mongoose.connect(config().app.mongoDbConnection, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(res => { console.log('mongodb connected') })
         .catch(err => { console.log('mongo error in connection:', err) });
     }
@@ -53,8 +51,8 @@ class App {
   private middleware(): void {
 
     var urlrewriteFile = 'url-rewrite.json'
-    if (config.app.provider === 'file') {
-      var urlRewriteInFileProviderLocation = config.app.fileProviderLocation + path.sep + 'url-rewrite.json'
+    if (config().app.provider === 'file') {
+      var urlRewriteInFileProviderLocation = config().app.fileProviderLocation + path.sep + 'url-rewrite.json'
       console.log(`Looking for ${urlRewriteInFileProviderLocation} `)
       if (fs.existsSync(urlRewriteInFileProviderLocation)) {
         urlrewriteFile = urlRewriteInFileProviderLocation
@@ -75,7 +73,7 @@ class App {
 
     // timing
     this.express.use(responseTime(function (req, res, time) {
-      if (time > config.app.responseLogLimit) {
+      if (time > config().app.responseLogLimit) {
         LogManager.logTimingMessage(`${req.method} ${req.url} ${time}\r\n`)
       }
     }))

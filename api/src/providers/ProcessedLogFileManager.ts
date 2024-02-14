@@ -1,9 +1,9 @@
-import { ProcessedRequest } from "../model/ProcessedRequest";
-import * as fs from "fs";
-import * as path from "path";
+import { ProcessedRequest } from "../model/ProcessedRequest.js";
+import fs from "fs";
+import path from "path";
 import * as glob from "glob";
-
-var debug = require("debug")("processLogFileManager");
+import appDebug from 'debug'
+var debug = appDebug("processLogFileManager");
 var lastCount = 1;
 
 export class ProcessLogFileManager {

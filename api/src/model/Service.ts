@@ -1,4 +1,4 @@
-import { ServiceConfigMap } from "./ServiceConfigMap";
+import { ServiceConfigMap } from "./ServiceConfigMap.js";
 
 export class Service {
     constructor(public name: string,

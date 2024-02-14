@@ -1,17 +1,16 @@
-import { ServiceManager } from './ServiceManager';
-import { Service } from '../model/Service';
-import { ProcessInfo } from '../model/ProcessInfo'; 56
-
+import { ServiceManager } from './ServiceManager.js';
+import { Service } from '../model/Service.js';
+import { ProcessInfo } from '../model/ProcessInfo.js';
 import * as glob from 'glob';
-import * as path from 'path';
-import * as fs from 'fs';
-import { ServiceFileProvider } from './ServiceFileProvider';
-import { ProcessedRequest } from '../model/ProcessedRequest';
-import { ProcessLogFileManager } from './ProcessedLogFileManager';
-import { MapDetail } from '../model/MapDetail';
+import path from 'path';
+import fs from 'fs';
+import { ServiceFileProvider } from './ServiceFileProvider.js';
+import { ProcessedRequest } from '../model/ProcessedRequest.js';
+import { ProcessLogFileManager } from './ProcessedLogFileManager.js';
+import { MapDetail } from '../model/MapDetail.js';
 import { Request } from 'express';
-import { resolve } from 'dns';
-var debug = require('debug')('servicesfileprovider')
+import appDebug from 'debug'
+var debug = appDebug('servicesfileprovider')
 
 export class ServicesFileProvider implements ServiceManager {
     constructor(public fileProviderLocation: string) {

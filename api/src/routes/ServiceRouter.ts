@@ -1,9 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { ServiceManagerFactory } from "../providers/ServiceManagerFactory";
-import { ProcessedRequest } from '../model/ProcessedRequest';
-import { ProcessInfo } from '../model/ProcessInfo';
-var url=require('url')
-var debug = require('debug')('servicerouter')
+import { ServiceManagerFactory } from "../providers/ServiceManagerFactory.js";
+import url from 'url'
+import appDebug from 'debug'
+var debug = appDebug('servicerouter')
 
 export class ServiceRouter {
     router: Router
@@ -22,13 +21,13 @@ export class ServiceRouter {
     public async handle(req: Request, res: Response, next: NextFunction) {
         try {
             var requestData = await this.getRequest(req);
-            
+
             let parsedUrl = url.parse(req.originalUrl);
             var urlParts = req.url.split('/')
-            var serviceName = urlParts[urlParts.length-1]
+            var serviceName = urlParts[urlParts.length - 1]
             // Add query string also as part of the post data.
             requestData += req.originalUrl
-            requestData += parsedUrl.query == null ? "": parsedUrl.query
+            requestData += parsedUrl.query == null ? "" : parsedUrl.query
 
             debug(`serviceName: ${serviceName}`)
             var serviceManager = ServiceManagerFactory.createServiceManager();

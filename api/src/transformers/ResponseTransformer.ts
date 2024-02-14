@@ -1,8 +1,8 @@
-    import { resolve } from "url";
-import * as handlebars from 'handlebars'
-import { HelperProvider } from "./HelpersProvider";
-import { ITemplateDataProvider } from "../providers/ITemplateDataProvider";
-var debug = require('debug')('responsetransformer')
+import handlebars from 'handlebars'
+import { HelperProvider } from "./HelpersProvider.js";
+import { ITemplateDataProvider } from "../providers/ITemplateDataProvider.js";
+import appDebug from 'debug'
+var debug = appDebug('responsetransformer')
 
 export class ResponseTransformer {
 
@@ -12,13 +12,13 @@ export class ResponseTransformer {
         }
     }
 
-    public async transform(serviceName : string, request: string, response: string): Promise<string> {
+    public async transform(serviceName: string, request: string, response: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             var template = handlebars.compile(response)
             try {
                 resolve(template({
-                    request : request,
-                    serviceName : serviceName,
+                    request: request,
+                    serviceName: serviceName,
                     dataProvider: this.dataProvider
                 }))
             } catch (error) {

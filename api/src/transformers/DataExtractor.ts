@@ -1,9 +1,10 @@
-import { ITemplateDataProvider } from './../providers/ITemplateDataProvider';
-const debug = require('debug')('dataextractor')
+import { ITemplateDataProvider } from './../providers/ITemplateDataProvider.js';
+import appDebug from 'debug'
+const debug = appDebug('dataextractor')
 export class DataExtractor {
     constructor(public dataProvider: ITemplateDataProvider,
         public serviceName: string,
-        public input : string,
+        public input: string,
         public dataName: string,
         public match: string,
         public key: string) {
@@ -13,8 +14,8 @@ export class DataExtractor {
         debug('enter getData')
         var tags = this.match.split('|')
         console.log('this.input' + this.input)
-        var matchValue = this.extract(this.input, tags[0], tags[1] )
-        if( matchValue === ''){
+        var matchValue = this.extract(this.input, tags[0], tags[1])
+        if (matchValue === '') {
             debug('getData matchValue.empty')
             return ''
         }
@@ -22,7 +23,7 @@ export class DataExtractor {
         debug('getData: matchValue:' + matchValue)
         debug('getting dataProvider')
         var val = this.dataProvider.getData(this.serviceName, this.dataName)
-        if( val === undefined){
+        if (val === undefined) {
             return ''
         }
 
@@ -38,17 +39,17 @@ export class DataExtractor {
         })
 
         debug('matched record:' + matchedRecord)
-        if( matchedRecord === undefined){
+        if (matchedRecord === undefined) {
             debug(`no match found: ${matchValue}`)
             return ''
         }
-        
+
         var subParts = matchedRecord.split('|')
-        if( subParts[1] === undefined){
+        if (subParts[1] === undefined) {
             return ''
         }
         console.log('subParts[1]:' + subParts[1])
-        var keyValuePairs = subParts[1].replace('\r','')
+        var keyValuePairs = subParts[1].replace('\r', '')
         var map = this.convertArrayToMap(keyValuePairs.split('='))
 
         return map[this.key]
@@ -71,16 +72,16 @@ export class DataExtractor {
         return ''
     }
 
-    private convertArrayToMap(array) :Map<string,string>{
-        var map = new Map<string,string>()
+    private convertArrayToMap(array): Map<string, string> {
+        var map = new Map<string, string>()
         console.log('array length:' + array.length)
-        for(var i=0; i<array.length-1 ; i++){
+        for (var i = 0; i < array.length - 1; i++) {
             console.log('___-' + array[i])
-            console.log('___-' + array[i+1])
-            map[array[i]] = array[i+1]
+            console.log('___-' + array[i + 1])
+            map[array[i]] = array[i + 1]
         }
 
         return map
     }
-    
+
 }

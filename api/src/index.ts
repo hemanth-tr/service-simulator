@@ -1,16 +1,16 @@
 // http://mherman.org/blog/2016/11/05/developing-a-restful-api-with-node-and-typescript/
 // https://itnext.io/building-restful-web-apis-with-node-js-express-mongodb-and-typescript-part-1-2-195bdaf129cf
-import * as http from 'http';
-import * as https from 'https'
-import * as debug from 'debug';
-import * as fs from 'fs';
-var config = require('./config')
-import App from './App';
+import http from 'http';
+import https from 'https'
+import debug from 'debug';
+import fs from 'fs';
+import config from './config.js';
+import App from './App.js';
 
 debug('ts-express:server');
 
-const port = normalizePort(config.app.port);
-const sslport = normalizePort(config.app.sslport);
+const port = normalizePort(config().app.port);
+const sslport = normalizePort(config().app.sslport);
 App.set('port', port);
 
 const server = http.createServer(App);
@@ -20,8 +20,8 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 var sslOptions = {
-  key: fs.readFileSync( config.app.certname + '.key'),
-  cert: fs.readFileSync(config.app.certname + '.crt'),
+  key: fs.readFileSync(config().app.certname + '.key'),
+  cert: fs.readFileSync(config().app.certname + '.crt'),
   passphrase: '1234'
 };
 const httpsServer = https.createServer(sslOptions, App)
@@ -41,7 +41,7 @@ function onError(error: NodeJS.ErrnoException): void {
   if (error.syscall !== 'listen') throw error;
   let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
   let sslbind = (typeof sslport === 'string') ? 'Pipe ' + sslport : 'Port ' + sslport;
-  
+
   console.log('in onError...')
   switch (error.code) {
     case 'EACCES':
@@ -49,9 +49,9 @@ function onError(error: NodeJS.ErrnoException): void {
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      if( portListening == false){
+      if (portListening == false) {
         console.error(`${bind} is already in use`);
-      }else{
+      } else {
         console.error(`${sslbind} is already in use`);
       }
       process.exit(1);
@@ -66,9 +66,9 @@ function onListening(): void {
   let addr = server.address();
   let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
   console.log(`http listening on ${bind}`);
-  console.log(`provider: ` + config.app.provider);
-  if (config.app.provider === 'file') {
-    console.log('`t file provider location:' + config.app.fileProviderLocation)
+  console.log(`provider: ` + config().app.provider);
+  if (config().app.provider === 'file') {
+    console.log('`t file provider location:' + config().app.fileProviderLocation)
   }
   console.log('using stubservice domain.')
 }

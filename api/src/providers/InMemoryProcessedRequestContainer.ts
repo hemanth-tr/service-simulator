@@ -1,4 +1,4 @@
-import { ProcessedRequest } from "../model/ProcessedRequest";
+import { ProcessedRequest } from "../model/ProcessedRequest.js";
 
 export class InMemoryProcessedRequestContainer {
     private static Logs: ProcessedRequest[] = []

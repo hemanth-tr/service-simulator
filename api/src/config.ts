@@ -1,5 +1,5 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import fs from 'fs'
+import path from 'path'
 
 // config.js
 const env = process.env.NODE_ENV || "dev"; // 'dev' or 'prod' or 'azure'
@@ -8,13 +8,13 @@ const dev = {
     app: {
         port: process.env.PORT || 3000,
         sslport: process.env.SSLPORT || 3443,
-        certname:process.env.CERTNAME || 'stubservices',
+        certname: process.env.CERTNAME || 'stubservices',
         provider: process.env.PROVIDER || 'inmemory',
         inMemoryDataFile: process.env.INMEMORY_DATAFILE || (process.cwd() + path.sep + 'data/inmemory/testdata.json'),
         mongoDbConnection: process.env.MONGODB_CONNECTION || 'mongodb://127.0.0.1:27017/simulator',
         fileProviderLocation: process.env.FILEPROVIDER_LOCATION || (process.cwd() + path.sep + `data${path.sep}fileprovider`),
         templateDataFilesLocation: process.env.TEMPLATEDATAFILES_LOCATION || (process.cwd() + path.sep + 'data/inmemory'),
-        responseLogLimit : process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
+        responseLogLimit: process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
     }
 };
 
@@ -22,13 +22,13 @@ const prod = {
     app: {
         port: process.env.PORT || 3000,
         sslport: process.env.SSLPORT || 3443,
-        certname:process.env.CERTNAME || 'stubservices',
+        certname: process.env.CERTNAME || 'stubservices',
         provider: process.env.PROVIDER || 'file',
         inMemoryDataFile: process.env.INMEMORY_DATAFILE || (process.cwd() + path.sep + 'data/inmemory/testdata.json'),
         mongoDbConnection: process.env.MONGODB_CONNECTION || 'mongodb://127.0.0.1:27017/simulator',
         fileProviderLocation: process.env.FILEPROVIDER_LOCATION || (process.cwd() + path.sep + `data${path.sep}fileprovider`),
         templateDataFilesLocation: process.env.TEMPLATEDATAFILES_LOCATION || (process.cwd() + path.sep + 'data/inmemory'),
-        responseLogLimit : process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
+        responseLogLimit: process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
     }
 };
 
@@ -36,13 +36,13 @@ const azure = {
     app: {
         port: process.env.PORT || 80,
         sslport: process.env.SSLPORT || 3443,
-        certname:process.env.CERTNAME || 'stubservices',
+        certname: process.env.CERTNAME || 'stubservices',
         provider: process.env.PROVIDER || 'mongo',
         inMemoryDataFile: process.env.INMEMORY_DATAFILE || (process.cwd() + path.sep + 'data/inmemory/testdata.json'),
         mongoDbConnection: process.env.MONGODB_CONNECTION || 'mongodb://127.0.0.1:27017/simulator',
         fileProviderLocation: process.env.FILEPROVIDER_LOCATION || (process.cwd() + path.sep + `data${path.sep}fileprovider`),
         templateDataFilesLocation: process.env.TEMPLATEDATAFILES_LOCATION || (process.cwd() + path.sep + 'data/inmemory'),
-        responseLogLimit : process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
+        responseLogLimit: process.env.LOG_THRESHOLD_TIME_LIMIT || 3000
     },
 };
 
@@ -52,7 +52,7 @@ const config = {
     azure
 };
 
-function getConfig() {
+export default function getConfig(): any {
     var current = config[env];
     if (current === undefined) {
         console.error('envionrment not set. please set NODE_ENV with one of (dev/prod/azureprod)')
@@ -98,4 +98,3 @@ function getConfig() {
 
     return current;
 }
-module.exports = getConfig()

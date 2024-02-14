@@ -1,17 +1,17 @@
-import { ITemplateDataProvider } from "./ITemplateDataProvider";
-import { InMemoryTemplateDataProvider } from "./InMemoryTemplateDataProvider";
-import { FileProviderTemplateDataProvider } from "./FileProviderTemplateDataProvider";
-import { MongoDbTemplateDataProvider } from "./MongoDbTemplateDataProvider";
-const config = require('./../config');
+import { ITemplateDataProvider } from "./ITemplateDataProvider.js";
+import { InMemoryTemplateDataProvider } from "./InMemoryTemplateDataProvider.js";
+import { FileProviderTemplateDataProvider } from "./FileProviderTemplateDataProvider.js";
+import { MongoDbTemplateDataProvider } from "./MongoDbTemplateDataProvider.js";
+import config from '../config.js'
 
-export class TemplateDataProviderFactory{
-    public static getTemplateDataProvider(): ITemplateDataProvider{
-        if (config.app.provider === 'file') {
-            return new FileProviderTemplateDataProvider(config.app.fileProviderLocation);
-        } else if (config.app.provider === 'mongo') {
+export class TemplateDataProviderFactory {
+    public static getTemplateDataProvider(): ITemplateDataProvider {
+        if (config().app.provider === 'file') {
+            return new FileProviderTemplateDataProvider(config().app.fileProviderLocation);
+        } else if (config().app.provider === 'mongo') {
             return new MongoDbTemplateDataProvider()
-        }else{
-            return new InMemoryTemplateDataProvider(config.app.templateDataFilesLocation);
+        } else {
+            return new InMemoryTemplateDataProvider(config().app.templateDataFilesLocation);
         }
     }
 }

@@ -1,3 +1,3 @@
-export interface ITemplateDataProvider{
-    getData(serviceName: string, dataname:string): string
+export interface ITemplateDataProvider {
+    getData(serviceName: string, dataname: string): string
 }

@@ -1,10 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
-import debugx = require('debug');
-import { Log } from '../model/Log';
-import { ResponseTransformer } from '../transformers/ResponseTransformer';
-import { LogManager } from '../providers/LogManager';
-import { createWriteStream } from 'fs';
+import { ServiceManagerFactory } from '../providers/ServiceManagerFactory.js';
+import debugx from 'debug';
+import { Log } from '../model/Log.js';
+import { LogManager } from '../providers/LogManager.js';
 let debug = debugx('adminrouter');
 
 export class AdminRouter {
@@ -214,7 +212,7 @@ export class AdminRouter {
     });
   }
 
- 
+
 
   /**
    * Take each handler, and attach to one of the Express.Router's

@@ -1,8 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
-import { Log } from '../model/Log';
-import debugx = require('debug');
-import { LogManager } from '../providers/LogManager';
+import { ServiceManagerFactory } from '../providers/ServiceManagerFactory.js';
+import debugx from 'debug';
+import { LogManager } from '../providers/LogManager.js';
 let debug = debugx('logrouter');
 
 export class LogRouter {

@@ -1,15 +1,15 @@
-import { InMemoryTemplateDataProvider } from './InMemoryTemplateDataProvider';
-import { ServiceManager } from './ServiceManager';
-import { Service } from '../model/Service';
-import { ProcessInfo } from '../model/ProcessInfo';
-import { ProcessedRequest } from '../model/ProcessedRequest';
-import { MapDetail } from '../model/MapDetail';
-import { ResponseTransformer } from '../transformers/ResponseTransformer';
-import { TemplateDataProviderFactory } from './TemplateDataProviderFactory';
+import { ServiceManager } from './ServiceManager.js';
+import { Service } from '../model/Service.js';
+import { ProcessInfo } from '../model/ProcessInfo.js';
+import { ProcessedRequest } from '../model/ProcessedRequest.js';
+import { MapDetail } from '../model/MapDetail.js';
+import { ResponseTransformer } from '../transformers/ResponseTransformer.js';
+import { TemplateDataProviderFactory } from './TemplateDataProviderFactory.js';
 import { Request } from 'express';
 import { clearScreenDown } from 'readline';
-const config = require('./../config');
-const debug = require('debug')('wrapperProvider')
+import config from '../config.js'
+import appDebug from 'debug'
+const debug = appDebug('wrapperProvider')
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export class WrapperProvider implements ServiceManager {

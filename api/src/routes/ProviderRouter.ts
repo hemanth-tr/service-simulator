@@ -1,8 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import debugx = require('debug');
-import { LogManager } from '../providers/LogManager';
+import debugx from 'debug';
 let debug = debugx('providerrouter');
-const config = require('./../config');
+import config from '../config.js'
 
 export class ProviderRouter {
     router: Router
@@ -21,15 +20,15 @@ export class ProviderRouter {
     private getProvider(req: Request, res: Response) {
         debug('enter getProvider.')
         var info = {
-            provider: config.app.provider,
+            provider: config().app.provider,
             path: ''
         }
 
         if (info.provider === 'file') {
-            info.path = config.app.fileProviderLocation
+            info.path = config().app.fileProviderLocation
         } else if (info.provider === 'inmemory') {
-            info.path = config.app.inMemoryDataFile
-        }else{
+            info.path = config().app.inMemoryDataFile
+        } else {
             info.path = 'mongodb:...'
         }
 

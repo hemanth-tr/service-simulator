@@ -1,13 +1,12 @@
-import { ITemplateDataProvider } from './ITemplateDataProvider';
-import * as path from 'path'
-import * as fs from 'fs'
-const debug = require('debug')('mongodbtemplatedataprovider')
+import { ITemplateDataProvider } from './ITemplateDataProvider.js';
+import appDebug from 'debug'
+const debug = appDebug('mongodbtemplatedataprovider')
 
-export class MongoDbTemplateDataProvider implements ITemplateDataProvider{
-    constructor(){
+export class MongoDbTemplateDataProvider implements ITemplateDataProvider {
+    constructor() {
     }
 
-    public getData(serviceName: string, dataname:string): string{
+    public getData(serviceName: string, dataname: string): string {
         return ''
     }
 }
